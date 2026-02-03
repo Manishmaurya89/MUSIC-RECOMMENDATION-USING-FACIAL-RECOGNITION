@@ -39,13 +39,8 @@ To run the app, type following command in terminal.
  [Emotion based music recommendation system](https://youtu.be/eSBsY4WwgGw)
  
 
-## Authors
-
-- [Anish Kumar](https://github.com/Anishkumar31/PROJECT)
-
-
 
 ## Support
 
-For support, email anishkumar31804@gmail.com 
+For support, email manish.maurya0408@gmail.com
 
