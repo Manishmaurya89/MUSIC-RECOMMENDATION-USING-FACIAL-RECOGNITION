@@ -1,37 +1,99 @@
+# 🎵 Emotion-Based Music Recommendation System
 
-# Emotion based music recommendation system
+A web app that watches your face, reads your emotion in real time, and recommends music that matches your mood — powered by OpenCV, a trained CNN emotion classifier, and Streamlit.
 
-This web based app written in python will first scan your current emotion with the help of OpenCV & then crop the image of your face from entire frame once the cropped image is ready it will give this image to trained MACHINE LEARNING model in order to predict the emotion of the cropped image.This will happen for 30-40 times in 2-3 seconds, now once we have list of emotion's (contain duplicate elements) with us it will first sort the list based on frequency & remove the duplicates. After performing all the above steps we will be having a list containing user's emotion in sorted order, Now we just have to iterate over the list & recommend songs based on emotions present in the list.
+---
 
+## 🧠 How It Works
 
-## Installation & Run
-
-Create new project in pycharm and add above files. After that open terminal and run the following command. This will install all the modules needed to run this app. 
-
-```bash
-  pip install -r requirements.txt
+```
+Webcam Feed
+    ↓
+Face Detection (Haar Cascade)
+    ↓
+Crop Face Region
+    ↓
+Emotion Classification (CNN · model.h5)   ← runs 30–40 times over 2–3 seconds
+    ↓
+Sort emotions by frequency
+    ↓
+Recommend songs from dataset (muse_v3.csv) matching top emotions
 ```
 
-To run the app, type following command in terminal. 
+Emotions detected: `Happy · Sad · Angry · Surprised · Neutral · Fear · Disgust`
+
+---
+
+## ✨ Features
+
+- 📸 **Live webcam emotion scanning** — captures multiple frames for stable prediction
+- 🧬 **CNN-based classifier** — custom trained model stored as `model.h5`
+- 🎶 **Music dataset matching** — maps emotions to songs from `muse_v3.csv`
+- 🌐 **Streamlit web interface** — runs locally in your browser, no setup complexity
+- 🔒 **100% local** — no data sent anywhere
+
+---
+
+## 🛠️ Tech Stack
+
+`Python` · `Streamlit` · `OpenCV` · `TensorFlow / Keras` · `Pandas` · `NumPy`
+
+---
+
+## 🚀 Getting Started
+
+**Requirements:** Python 3.7+, a webcam
+
 ```bash
-  streamlit run app.py
+# Clone the repo
+git clone https://github.com/Manishmaurya89/MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION.git
+cd MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+streamlit run app.py
 ```
 
-## Libraries
+Open [http://localhost:8501](http://localhost:8501) in your browser and allow camera access.
 
-- Streamlit
-- Opencv
-- Numpy
-- Pandas
-- Tensorflow
-- Keras
+---
 
+## 📁 Project Structure
 
+```
+MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION/
+├── app.py                              # Main Streamlit app
+├── model.h5                            # Trained CNN emotion classifier
+├── haarcascade_frontalface_default.xml # OpenCV face detector
+├── muse_v3.csv                         # Music dataset with mood labels
+├── requirements.txt
+└── README.md
+```
 
- 
+---
 
+## 📦 Requirements
 
-## Support
+```
+streamlit
+opencv-python
+numpy
+pandas
+tensorflow
+keras
+```
 
-For support, email manish.maurya0408@gmail.com
+---
+
+## 📬 Contact
+
+For questions or feedback: **manish.maurya0408@gmail.com**
+
+---
+
+## 📄 License
+
+MIT License — free to use and modify.
 
