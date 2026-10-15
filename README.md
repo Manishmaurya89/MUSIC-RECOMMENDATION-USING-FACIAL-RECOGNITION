@@ -1,97 +1,58 @@
-# 🎵 Emotion-Based Music Recommendation System
+# Emotion-Based Music Recommendation
 
-A web app that watches your face, reads your emotion in real time, and recommends music that matches your mood — powered by OpenCV, a trained CNN emotion classifier, and Streamlit.
+A small web app that looks at your face through the webcam, works out how you're feeling and suggests songs to
+match. It uses OpenCV to find your face, a CNN to classify the emotion and Streamlit for the page.
 
----
+## How it works
 
-## 🧠 How It Works
+When you click **SCAN EMOTION**, the app reads 20 frames from your webcam. In each frame it finds your face with
+a Haar cascade, crops it to 48×48 grayscale and asks the CNN in `model.h5` which of 7 emotions it shows: happy,
+sad, angry, surprised, neutral, fear or disgust.
+
+It then counts how often each emotion came up and picks 30 songs from `muse_v3.csv`. The most frequent emotion
+gets the most songs. The songs are split into five groups (happy, neutral, angry, fear and sad), and sad, disgust
+and surprised all draw from the sad group. Each song links to its Last.fm page.
 
 ```
-Webcam Feed
-    ↓
-Face Detection (Haar Cascade)
-    ↓
-Crop Face Region
-    ↓
-Emotion Classification (CNN · model.h5)   ← runs on 20 webcam frames
-    ↓
-Sort emotions by frequency
-    ↓
-Recommend 30 songs from dataset (muse_v3.csv) matching top emotions
+Webcam (20 frames)
+  -> find the face (Haar cascade)
+  -> crop to 48x48 grayscale
+  -> classify the emotion (CNN, model.h5)
+  -> count the emotions, most frequent first
+  -> pick 30 matching songs from muse_v3.csv
 ```
 
-Emotions detected: `Happy · Sad · Angry · Surprised · Neutral · Fear · Disgust`
+Everything runs on your own computer. Nothing is uploaded.
 
-Songs come from five groups: happy, neutral, angry, fear and sad. Sad, Disgust and Surprised all use the sad group.
-The most frequent emotion gets the most songs.
+## Running it
 
----
-
-## ✨ Features
-
-- 📸 **Live webcam emotion scanning** — captures multiple frames for stable prediction
-- 🧬 **CNN-based classifier** — custom trained model stored as `model.h5`
-- 🎶 **Music dataset matching** — maps emotions to songs from `muse_v3.csv`
-- 🌐 **Streamlit web interface** — runs locally in your browser, no setup complexity
-- 🔒 **100% local** — no data sent anywhere
-
----
-
-## 🛠️ Tech Stack
-
-`Python` · `Streamlit` · `OpenCV` · `TensorFlow / Keras` · `Pandas` · `NumPy`
-
----
-
-## 🚀 Getting Started
-
-**Requirements:** Python 3.9+, a webcam
+You need Python 3.9 or newer and a webcam.
 
 ```bash
-# Clone the repo
 git clone https://github.com/Manishmaurya89/MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION.git
 cd MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Run the app
 streamlit run app.py
 ```
 
-Open [http://localhost:8501](http://localhost:8501) in your browser and allow camera access.
+Open http://localhost:8501 and allow camera access. The scan opens a separate video window; press `x` to close it
+early.
 
----
+## Files
 
-## 📁 Project Structure
+| File | What it is |
+| --- | --- |
+| `app.py` | The Streamlit app |
+| `model.h5` | Trained CNN weights for the 7 emotions |
+| `haarcascade_frontalface_default.xml` | OpenCV face detector |
+| `muse_v3.csv` | Song dataset with mood tags |
+| `requirements.txt` | Python packages |
+| `Report (1).pdf`, `PPT.pptx` | Project report and slides |
 
-```
-MUSIC-RECOMMENDATION-USING-FACIAL-RECOGNITION/
-├── app.py                              # Main Streamlit app
-├── model.h5                            # Trained CNN emotion classifier
-├── haarcascade_frontalface_default.xml # OpenCV face detector
-├── muse_v3.csv                         # Music dataset with mood labels
-├── requirements.txt
-└── README.md
-```
+## Built with
 
----
+Python, Streamlit, OpenCV, TensorFlow/Keras, Pandas and NumPy.
 
-## 📦 Requirements
+## Contact
 
-```
-streamlit
-opencv-python
-numpy
-pandas
-tensorflow
-keras
-```
-
----
-
-## 📬 Contact
-
-For questions or feedback: **manish.maurya0408@gmail.com**
-
-
+Questions or feedback: manish.maurya0408@gmail.com
