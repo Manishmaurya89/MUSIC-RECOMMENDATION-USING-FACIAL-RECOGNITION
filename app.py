@@ -24,7 +24,7 @@ df = df[['name','emotional','pleasant','link','artist']]
 # Pleasant = degree of pleasant in that particular song.
 # Emotional = emotional word used in that song.
 df = df.sort_values(by=["emotional", "pleasant"])
-df.reset_index()
+df = df.reset_index(drop=True)
 
 # Diving dataframe based on emotional & pleasant value in sorted order.
 df_sad = df[:18000]
@@ -33,163 +33,34 @@ df_angry = df[36000:54000]
 df_neutral = df[54000:72000]
 df_happy = df[72000:]
 
+# Songs for each emotion the model can predict. Disgusted, Sad and Surprised use the sad songs.
+emotion_songs = {
+    'Neutral': df_neutral,
+    'Angry': df_angry,
+    'Fearful': df_fear,
+    'Happy': df_happy,
+}
+
+# Number of songs for each emotion, by how many different emotions were seen (30 songs in total).
+song_counts = {
+    1: [30],
+    2: [20, 10],
+    3: [15, 10, 5],
+    4: [10, 9, 8, 3],
+    5: [10, 7, 6, 5, 2],
+}
+
 # Task of function 'fun' is to take list of unique emotions & return dataframe of 30 rows.
 def fun(list):
+    # Use the 5 most frequent emotions at most
+    list = list[:5]
+    if not list:
+        return pd.DataFrame()
 
-    # Creating Empty Dataframe
-    data = pd.DataFrame()
-
-    # If list of emotion's contain only 1 emotion
-    if len(list) == 1:
-        # Emotion name
-        v = list[0]
-
-        # Number of rows for this emotion
-        t = 30
-
-        if v == 'Neutral':
-            # Adding rows to data
-            data = data.append(df_neutral.sample(n=t))
-
-        elif v == 'Angry':
-            # Adding rows to data
-            data = data.append(df_angry.sample(n=t))
-
-        elif v == 'fear':
-            # Adding rows to data
-            data = data.append(df_fear.sample(n=t))
-
-        elif v == 'happy':
-            # Adding rows to data
-            data = data.append(df_happy.sample(n=t))
-
-        else:
-            # Adding rows to data
-            data = data.append(df_sad.sample(n=t))
-
-    elif len(list) == 2:
-        # Row's count per emotion
-        times = [20,10]
-
-        for i in range(len(list)):
-            # Emotion name
-            v = list[i]
-
-            # Number of rows for this emotion
-            t = times[i]
-
-            if v == 'Neutral':
-                # Adding rows to data
-                data = data.append(df_neutral.sample(n=t))
-
-            elif v == 'Angry':
-                # Adding rows to data
-                data = data.append(df_angry.sample(n=t))
-
-            elif v == 'fear':
-                # Adding rows to data
-                data = data.append(df_fear.sample(n=t))
-
-            elif v == 'happy':
-                # Adding rows to data
-                data = data.append(df_happy.sample(n=t))
-
-            else:
-                # Adding rows to data
-                data = data.append(df_sad.sample(n=t))
-
-    elif len(list) == 3:
-        # Row's count per emotion
-        times = [15,10,5]
-
-        for i in range(len(list)):
-            # Emotion name
-            v = list[i]
-
-            # Number of rows for this emotion
-            t = times[i]
-
-            if v == 'Neutral':
-                # Adding rows to data
-                data = data.append(df_neutral.sample(n=t))
-
-            elif v == 'Angry':
-                # Adding rows to data
-                data = data.append(df_angry.sample(n=t))
-
-            elif v == 'fear':
-                # Adding rows to data
-                data = data.append(df_fear.sample(n=t))
-
-            elif v == 'happy':
-                # Adding rows to data
-                data = data.append(df_happy.sample(n=t))
-
-            else:
-                # Adding rows to data
-                data = data.append(df_sad.sample(n=t))
-
-    elif len(list) == 4:
-        # Row's count per emotion
-        times = [10,9,8,3]
-
-        for i in range(len(list)):
-            # Emotion name
-            v = list[i]
-
-            # Number of rows for this emotion
-            t = times[i]
-
-            if v == 'Neutral':
-                # Adding rows to data
-                data = data.append(df_neutral.sample(n=t))
-
-            elif v == 'Angry':
-                # Adding rows to data
-                data = data.append(df_angry.sample(n=t))
-
-            elif v == 'fear':
-                # Adding rows to data
-                data = data.append(df_fear.sample(n=t))
-
-            elif v == 'happy':
-                # Adding rows to data
-                data = data.append(df_happy.sample(n=t))
-
-            else:
-                # Adding rows to data
-                data = data.append(df_sad.sample(n=t))
-    else:
-        # Row's count per emotion
-        times = [10,7,6,5,2]
-
-        for i in range(len(list)):
-            # Emotion name
-            v = list[i]
-
-            # Number of rows for this emotion
-            t = times[i]
-
-            if v == 'Neutral':
-                # Adding rows to data
-                data = data.append(df_neutral.sample(n=t))
-
-            elif v == 'Angry':
-                # Adding rows to data
-                data = data.append(df_angry.sample(n=t))
-
-            elif v == 'fear':
-                # Adding rows to data
-                data = data.append(df_fear.sample(n=t))
-
-            elif v == 'happy':
-                # Adding rows to data
-                data = data.append(df_happy.sample(n=t))
-
-            else:
-                # Adding rows to data
-                data = data.append(df_sad.sample(n=t))
-    return data
+    parts = []
+    for v, t in zip(list, song_counts[len(list)]):
+        parts.append(emotion_songs.get(v, df_sad).sample(n=t))
+    return pd.concat(parts)
 
 
 # Task of function 'pre' is to take list of emotions (containing duplicate also) &

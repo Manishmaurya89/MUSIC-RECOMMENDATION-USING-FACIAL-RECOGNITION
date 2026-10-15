@@ -13,14 +13,17 @@ Face Detection (Haar Cascade)
     ↓
 Crop Face Region
     ↓
-Emotion Classification (CNN · model.h5)   ← runs 30–40 times over 2–3 seconds
+Emotion Classification (CNN · model.h5)   ← runs on 20 webcam frames
     ↓
 Sort emotions by frequency
     ↓
-Recommend songs from dataset (muse_v3.csv) matching top emotions
+Recommend 30 songs from dataset (muse_v3.csv) matching top emotions
 ```
 
 Emotions detected: `Happy · Sad · Angry · Surprised · Neutral · Fear · Disgust`
+
+Songs come from five groups: happy, neutral, angry, fear and sad. Sad, Disgust and Surprised all use the sad group.
+The most frequent emotion gets the most songs.
 
 ---
 
@@ -42,7 +45,7 @@ Emotions detected: `Happy · Sad · Angry · Surprised · Neutral · Fear · Dis
 
 ## 🚀 Getting Started
 
-**Requirements:** Python 3.7+, a webcam
+**Requirements:** Python 3.9+, a webcam
 
 ```bash
 # Clone the repo
@@ -91,9 +94,4 @@ keras
 
 For questions or feedback: **manish.maurya0408@gmail.com**
 
----
-
-## 📄 License
-
-MIT License — free to use and modify.
 
